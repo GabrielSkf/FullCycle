@@ -1,0 +1,18 @@
+services:
+  node:
+
+  nginx:
+    build:
+      context: ./nginx
+      dockerfile: Dockerfile.dev
+    image: gabrielskf/nginx:dev
+    container_name: nginx
+    networks:
+      - nodenet
+    ports:
+      - "8080:80"
+
+networks:
+  laranet:
+    driver: bridge
+
