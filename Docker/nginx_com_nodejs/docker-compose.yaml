@@ -1,5 +1,17 @@
 services:
-  node:
+
+  app:
+    build:
+      context: node
+    container_name: app
+    networks:
+      - nodenet
+    volume:
+      - ./node:/usr/src/app
+    tty: true
+    ports:
+      - "3000:3000"
+
 
   nginx:
     build:
@@ -12,7 +24,21 @@ services:
     ports:
       - "8080:80"
 
-networks:
-  laranet:
-    driver: bridge
+  db:
+    image: mysql:5.7
+    command: --innodb-use-native-aio=0
+    container_name: db
+    restart: always
+    tty: true
+    volumes:
+      - ./mysql:/var/lib/mysql
+    environment:
+      - MYSQL_DATABASE=nodedb
+      - MYSQL_ROOT_PASSWORD=root
+    networks:
+      - nodenet
 
+
+networks:
+  nodenet:
+    driver: bridge
