@@ -1,1 +1,1 @@
-FROM golang:1.22.2 as BUILDER
+FROM nginx:1.15.0-alpine

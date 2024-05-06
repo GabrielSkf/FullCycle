@@ -2,7 +2,9 @@ services:
 
   app:
     build:
-      context: node
+      context: ./node
+      dockerfile: Dockerfile
+    image: gabrielskf/node
     container_name: app
     networks:
       - nodenet
@@ -14,29 +16,14 @@ services:
 
   nginx:
     build:
-      context: nginx
+      context: ./nginx
       dockerfile: Dockerfile
-    image: gabrielskf/nginx:prod
+    image: gabrielskf/nginx
     container_name: nginx
     networks:
       - nodenet
     ports:
       - "8080:80"
-
-  db:
-    image: mysql:5.7
-    command: --innodb-use-native-aio=0
-    container_name: db
-    restart: always
-    tty: true
-    volumes:
-      - ./mysql:/var/lib/mysql
-    environment:
-      - MYSQL_DATABASE=nodedb
-      - MYSQL_ROOT_PASSWORD=root
-    networks:
-      - nodenet
-
 
 networks:
   nodenet:
